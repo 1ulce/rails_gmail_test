@@ -19,4 +19,5 @@
 # 1ulce add
 /vendor/bundle
 .env
+client_secret.json
 # 1ulce add end

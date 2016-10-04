@@ -37,4 +37,5 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # 1ulce add
 gem 'signet'
+gem 'google-api-client'
 # 1ulce add end
