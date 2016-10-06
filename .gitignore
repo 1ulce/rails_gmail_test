@@ -20,4 +20,5 @@
 /vendor/bundle
 .env
 client_secret.json
+gmail_api.json
 # 1ulce add end

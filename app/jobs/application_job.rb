@@ -9,7 +9,7 @@ class ApplicationJob < ActiveJob::Base
   APPLICATION_NAME = 'Gmail API Ruby Quickstart'
   CLIENT_SECRETS_PATH = '/Users/ch0chip/code/web/rails_gmail_test/client_secret.json'
   CREDENTIALS_PATH = File.join(Dir.home, '.credentials', "gmail-ruby-quickstart.yaml")
-  SCOPE = Google::Apis::GmailV1::AUTH_GMAIL_READONLY
+  SCOPE = [Google::Apis::GmailV1::AUTH_GMAIL_READONLY, Google::Apis::GmailV1::AUTH_SCOPE, Google::Apis::GmailV1::AUTH_GMAIL_MODIFY]
 
   ##
   # Ensure valid credentials, either by restoring from the saved credentials
@@ -20,8 +20,9 @@ class ApplicationJob < ActiveJob::Base
   class << self
     def authorize
       FileUtils.mkdir_p(File.dirname(CREDENTIALS_PATH))
-
+      binding.pry
       client_id = Google::Auth::ClientId.from_file(CLIENT_SECRETS_PATH)
+      # client_id = "116995506269605606204"
       token_store = Google::Auth::Stores::FileTokenStore.new(file: CREDENTIALS_PATH)
       authorizer = Google::Auth::UserAuthorizer.new(
         client_id, SCOPE, token_store)
@@ -46,11 +47,15 @@ class ApplicationJob < ActiveJob::Base
       service.authorization = authorize
       # Show the user's labels
       user_id = 'me'
-      result = service.list_user_labels(user_id)
+      req = Google::Apis::GmailV1::WatchRequest.new
+      req.topic_name="projects/gmail-api-145315/topics/my-topic"
+      service.watch_user(user_id, req)
 
-      puts "Labels:"
-      puts "No labels found" if result.labels.empty?
-      result.labels.each { |label| puts "- #{label.name}" }
+      # result = service.list_user_labels(user_id)
+
+      # puts "Labels:"
+      # puts "No labels found" if result.labels.empty?
+      # result.labels.each { |label| puts "- #{label.name}" }
     end
   end
 end

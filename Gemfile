@@ -39,4 +39,6 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'signet'
 gem 'google-api-client'
 gem 'google-cloud-pubsub'
+gem 'pry-rails'
+gem 'pry-nav'
 # 1ulce add end
